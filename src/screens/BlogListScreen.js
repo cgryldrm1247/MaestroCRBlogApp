@@ -48,7 +48,7 @@ const BlogListScreen = ({ navigation }) => {
     navigation.setOptions({
       headerRight: () => (
         <View style={{ flexDirection: "row", alignItems: "center", marginRight: 20 }}>
-          <Text style={{ marginRight: 10, color: isDarkMode ? "#f5dd4b" : "black" }}>
+          <Text style={{ fontSize:16, marginRight: 10, color: isDarkMode ? "#f5dd4b" : "black" }}>
             {isDarkMode ? "Light" : "Dark"}
           </Text>
           <Switch
