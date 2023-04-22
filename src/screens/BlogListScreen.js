@@ -9,6 +9,7 @@ import {
   Image,
   StyleSheet,
   Button,
+  Switch,
 } from "react-native";
 import BlogContext from "../context/BlogContext";
 import DarkModeContext from "../../DarkModeContext";
@@ -23,30 +24,17 @@ const BlogListScreen = ({ navigation }) => {
     fetchBlogPosts();
   }, []);
 
-  const fetchBlogPosts = async (isRefreshing = false) => {
-    if (isRefreshing) {
-      setPage(1);
-    } else if (page === 1 && blogPosts.length > 0) {
-      return;
-    }
-
+  const fetchBlogPosts = async () => {
     try {
       setLoading(true);
 
       const response = await fetch(
-        `https://www.lenasoftware.com/api/v1/en/maestro/1?page=${page}&count=10`
+        `https://www.lenasoftware.com/api/v1/en/maestro/1?page=1&count=10`
       );
       const jsonResponse = await response.json();
 
       const newBlogPosts = jsonResponse.result;
-
-      if (isRefreshing) {
-        setBlogPosts(newBlogPosts);
-      } else {
-        setBlogPosts((prevBlogPosts) => prevBlogPosts.concat(newBlogPosts));
-      }
-
-      setPage((prevPage) => prevPage + 1);
+      setBlogPosts(newBlogPosts);
     } catch (error) {
       console.error(error);
     } finally {
@@ -59,13 +47,21 @@ const BlogListScreen = ({ navigation }) => {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <Button
-          onPress={toggleDarkMode}
-          title={isDarkMode ? "LIGHT" : "DARK"}
-        />
+        <View style={{ flexDirection: "row", alignItems: "center", marginRight: 20 }}>
+          <Text style={{ marginRight: 10, color: isDarkMode ? "#f5dd4b" : "black" }}>
+            {isDarkMode ? "Light" : "Dark"}
+          </Text>
+          <Switch
+            value={isDarkMode}
+            onValueChange={toggleDarkMode}
+            trackColor={{ false: "#767577", true: "#81b0ff" }}
+            thumbColor={isDarkMode ? "#f5dd4b" : "#f4f3f4"}
+          />
+        </View>
       ),
     });
   }, [navigation, isDarkMode, toggleDarkMode]);
+  
 
   const renderItem = ({ item }) => {
     if (!item) return null;
@@ -114,7 +110,11 @@ const BlogListScreen = ({ navigation }) => {
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
-            onRefresh={() => fetchBlogPosts(true)}
+            onRefresh={async () => {
+              setRefreshing(true);
+              await fetchBlogPosts();
+              setRefreshing(false);
+            }}
             colors={["#0000ff"]}
             tintColor={"#0000ff"}
           />
@@ -155,9 +155,9 @@ const styles = (isDarkMode) =>
       color: isDarkMode ? "#ddd" : "#000",
     },
     cardReadingTime: {
-        fontSize: 18,
-        color: isDarkMode ? "#999999" : "#999999",
-      },
+      fontSize: 18,
+      color: isDarkMode ? "#999999" : "#999999",
+    },
   });
 
 export default BlogListScreen;
