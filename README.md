@@ -11,7 +11,7 @@ Bir Blogpost uygulamasıdır, kullanıcı login olmadan istediği gibi uygulama 
 npm install -g expo-cli] sonra npm install atın :[npm install] ve sonra çalıştırın: [npm start]
 
 
-[![](ezgif.com-video-to-gif (1).gif)](https://github.com/cgryldrm1247/MaestroCRBlogApp/blob/master/ezgif.com-video-to-gif%20(1).gif)
+[![](ezgif.com-video-to-gif (2).gif)
 
 
 
