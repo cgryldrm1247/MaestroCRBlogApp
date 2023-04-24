@@ -2,6 +2,7 @@
 
 Bu proje Lena Software firmasının verdiği case sonucunda yazılmıştır
 Bir Blogpost uygulamasıdır, kullanıcı login olmadan istediği gibi uygulama içinde gezinebilir.
+Ek olarak Dark ve Light modu eklenmiştir kullanıcının deneyim kalitesi göz önüne alınarak yapılmıştır.
 
 
 ## Kurulum
